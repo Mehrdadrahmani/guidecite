@@ -32,11 +32,11 @@ def load_mcq(cfg: dict, n: int, seed: int) -> pd.DataFrame:
     df = load_dataset(ecfg["mcq_dataset"], split=ecfg["mcq_split"]).to_pandas()
     df = df[df["answer_idx"].isin(list(LETTERS))].reset_index(drop=True)
     frac = n / len(df)
-    sample = (
-        df.groupby("meta_info", group_keys=False)
-        .apply(lambda g: g.sample(n=max(1, round(len(g) * frac)), random_state=seed))
-        .head(n)
-    )
+    parts = [
+        g.sample(n=max(1, round(len(g) * frac)), random_state=seed)
+        for _, g in df.groupby("meta_info", sort=True)
+    ]
+    sample = pd.concat(parts).head(n)
     sample = sample.reset_index().rename(columns={"index": "row"})
     sample["id"] = [f"mcq{r:05d}" for r in sample["row"]]
     return sample
