@@ -1,0 +1,306 @@
+[
+  {
+    "question": "Which groups of people should be screened for latent tuberculosis infection?",
+    "answer": "According to the WHO guidelines on latent tuberculosis infection (LTBI) [4], the following groups of people should be prioritized for LTBI testing and treatment:\n\n- Adult and child TB contacts  \n- Healthcare workers and students  \n- People living with HIV  \n- Patients on dialysis  \n- Immigrants from countries with a high TB burden  \n- Patients initiating anti-TNF therapy  \n- People who use illicit drugs  \n- Prisoners  \n- Homeless people  \n- Patients receiving an organ or haematological transplant  \n- Patients with silicosis  \n- Patients with diabetes  \n- People with harmful use of alcohol  \n- Tobacco smokers  \n- Underweight people  \n\nThe guidelines also note that an increased risk for progression to active TB was reported for the following groups: people living with HIV, adult and child TB contacts, patients on dialysis, and underweight people [4].\n\nNote: research tool output based on guidelines from ~2023; not medical advice.",
+    "citations": [
+      {
+        "n": 4,
+        "title": "Latent tuberculosis infection (LTBI) is defined as a state of persistent immune response to stimulation by…",
+        "source": "WHO",
+        "url": null,
+        "section": "Summary of evidence",
+        "snippet": "The GDG considered the three systematic reviews that were conducted for the previous LTBI guidelines to determine which of the 24 defined at-risk population groups should be priorities for LTBI testing and treatment for this update (9,10).…",
+        "chunk_id": "5da0d7902a8991c7bd61f95bd6dc9943397d93e7:0017"
+      }
+    ],
+    "invalid_citations": [],
+    "citations_valid": true,
+    "retrieved": [
+      {
+        "chunk_id": "5da0d7902a8991c7bd61f95bd6dc9943397d93e7:0025",
+        "title": "Latent tuberculosis infection (LTBI) is defined as a state of persistent immune response to stimulation by…",
+        "score": 0.9874659180641174
+      },
+      {
+        "chunk_id": "ca0963f55124b799be4dcae2ca06a06b1f30533b:0014",
+        "title": "Concerted efforts during the past two decades -first under the DOTS strategy and later the Stop TB Strategy…",
+        "score": 0.9866122007369995
+      },
+      {
+        "chunk_id": "ca0963f55124b799be4dcae2ca06a06b1f30533b:0004",
+        "title": "Concerted efforts during the past two decades -first under the DOTS strategy and later the Stop TB Strategy…",
+        "score": 0.9827866554260254
+      },
+      {
+        "chunk_id": "5da0d7902a8991c7bd61f95bd6dc9943397d93e7:0017",
+        "title": "Latent tuberculosis infection (LTBI) is defined as a state of persistent immune response to stimulation by…",
+        "score": 0.9793124198913574
+      },
+      {
+        "chunk_id": "ca0963f55124b799be4dcae2ca06a06b1f30533b:0013",
+        "title": "Concerted efforts during the past two decades -first under the DOTS strategy and later the Stop TB Strategy…",
+        "score": 0.978425920009613
+      }
+    ],
+    "timings": {
+      "retrieval_ms": 28621.5,
+      "generation_ms": 23891.8,
+      "total_ms": 52513.2
+    },
+    "mode": "hybrid_rerank",
+    "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+    "disclaimer": "GuideCite is a research/portfolio tool built on a ~2023 guideline snapshot. It is not medical advice."
+  },
+  {
+    "question": "Which vaccines are recommended for pregnant women?",
+    "answer": "The vaccines recommended for pregnant women, based on the provided guidelines, include:\n\n- **Varicella vaccine**: Pregnant women who do not have evidence of immunity should receive the first dose of varicella vaccine upon completion or termination of pregnancy and before discharge from the health-care facility. The second dose should be administered 4--8 weeks after the first dose [1].\n\n- **Tdap vaccine**: For pregnant women who received the last Td vaccination ≥10 years previously, Td should be administered during the second or third trimester. If the woman received the last Td vaccination <10 years previously, Tdap should be administered during the immediate postpartum period. A dose of Tdap is also recommended for postpartum women, close contacts of infants aged <12 months, and all healthcare personnel with direct patient contact if they have not previously received Tdap [3][4].\n\n- **MMR vaccine**: Women of childbearing age who lack laboratory evidence of immunity or have an unreliable rubella vaccination history should receive one dose of MMR vaccine upon completion or termination of pregnancy and before discharge from the health-care facility [5].\n\nNote: research tool output based on guidelines from ~2023; not medical advice.",
+    "citations": [
+      {
+        "n": 1,
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "source": "CDC",
+        "url": null,
+        "section": "Varicella vaccination",
+        "snippet": "Pregnant women should be assessed for evidence of varicella immunity. Women who do not have evidence of immunity should receive the first dose of varicella vaccine upon completion or termination of pregnancy and before discharge from the…",
+        "chunk_id": "e7c469ffea0b3d426d0efdff8e5b15c47021ed55:0005"
+      },
+      {
+        "n": 3,
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "source": "CDC",
+        "url": null,
+        "section": null,
+        "snippet": "The Recommended Adult Immunization Schedule has been approved by the Advisory Committee on Immunization Practices, the American Academy of Family Physicians, the American College of Obstetricians and Gynecologists, and the American College…",
+        "chunk_id": "78dd876b891219c5517b4dd756cf88430752ae9b:0002"
+      },
+      {
+        "n": 4,
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "source": "CDC",
+        "url": null,
+        "section": null,
+        "snippet": "The Recommended Adult Immunization Schedule has been approved by the Advisory Committee on Immunization Practices, the American Academy of Family Physicians, the American College of Obstetricians and Gynecologists, and the American College…",
+        "chunk_id": "e7c469ffea0b3d426d0efdff8e5b15c47021ed55:0001"
+      },
+      {
+        "n": 5,
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "source": "CDC",
+        "url": null,
+        "section": "Measles, mumps, rubella (MMR) vaccination",
+        "snippet": "Rubella component: 1 dose of MMR vaccine is recommended for women whose rubella vaccination history is unreliable or who lack laboratory evidence of immunity. For women of childbearing age, regardless of birth year, rubella immunity should…",
+        "chunk_id": "78dd876b891219c5517b4dd756cf88430752ae9b:0007"
+      }
+    ],
+    "invalid_citations": [],
+    "citations_valid": true,
+    "retrieved": [
+      {
+        "chunk_id": "e7c469ffea0b3d426d0efdff8e5b15c47021ed55:0005",
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "score": 0.9761357307434082
+      },
+      {
+        "chunk_id": "7ff3211b63be18501f6175ae308a329af1a39b1b:0043",
+        "title": "Since they were first issued in 1982, recommendations for hepatitis B vaccination have evolved into a…",
+        "score": 0.9726055264472961
+      },
+      {
+        "chunk_id": "78dd876b891219c5517b4dd756cf88430752ae9b:0002",
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "score": 0.9435381293296814
+      },
+      {
+        "chunk_id": "e7c469ffea0b3d426d0efdff8e5b15c47021ed55:0001",
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "score": 0.9341462254524231
+      },
+      {
+        "chunk_id": "78dd876b891219c5517b4dd756cf88430752ae9b:0007",
+        "title": "The Advisory Committee on Immunization Practices (ACIP) annually reviews the recommended Adult Immunization…",
+        "score": 0.9312350153923035
+      }
+    ],
+    "timings": {
+      "retrieval_ms": 1535.2,
+      "generation_ms": 23939.7,
+      "total_ms": 25474.9
+    },
+    "mode": "hybrid_rerank",
+    "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+    "disclaimer": "GuideCite is a research/portfolio tool built on a ~2023 guideline snapshot. It is not medical advice."
+  },
+  {
+    "question": "Should inhaled corticosteroids be used for chronic asthma in children under 12?",
+    "answer": "According to the NICE guideline on inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years [1], inhaled corticosteroids (ICSs) are recommended as an option for treating chronic asthma in children under the age of 12 years. The guidance emphasizes that ICSs suppress inflammation in the lungs and are recommended for prophylactic treatment of asthma [3]. The decision to use a combination device or separate devices should be made on an individual basis, considering therapeutic need and treatment adherence [1].\n\nNote: research tool output based on guidelines from ~2023; not medical advice.",
+    "citations": [
+      {
+        "n": 1,
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "source": "NICE",
+        "url": "https://www.nice.org.uk/guidance/ta131",
+        "section": null,
+        "snippet": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years Evidence-based recommendations on inhaled corticosteroids for treating chronic asthma in children under 12. Guidance This guidance should be…",
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0000"
+      },
+      {
+        "n": 3,
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "source": "NICE",
+        "url": "https://www.nice.org.uk/guidance/ta131",
+        "section": "The technologies",
+        "snippet": "ICSs suppress inflammation in the lungs and are recommended for prophylactic treatment of asthma. In the UK, three ICSs are licensed for use in children: beclometasone dipropionate, budesonide and fluticasone propionate. ICSs are available…",
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0006"
+      }
+    ],
+    "invalid_citations": [],
+    "citations_valid": true,
+    "retrieved": [
+      {
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0000",
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "score": 0.9999257326126099
+      },
+      {
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0042",
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "score": 0.9997865557670593
+      },
+      {
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0006",
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "score": 0.9997835755348206
+      },
+      {
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0033",
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "score": 0.9997733235359192
+      },
+      {
+        "chunk_id": "035cac974b5e11b44864141dbb518657c75fa648:0001",
+        "title": "Inhaled corticosteroids for the treatment of chronic asthma in children under the age of 12 years",
+        "score": 0.9997469782829285
+      }
+    ],
+    "timings": {
+      "retrieval_ms": 2033.3,
+      "generation_ms": 18237.0,
+      "total_ms": 20270.3
+    },
+    "mode": "hybrid_rerank",
+    "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+    "disclaimer": "GuideCite is a research/portfolio tool built on a ~2023 guideline snapshot. It is not medical advice."
+  },
+  {
+    "question": "How should laboratories test for Zika virus infection?",
+    "answer": "Laboratories should use tests that have undergone independent, comprehensive assessment of quality, safety, and performance for diagnosing arboviral infections [1]. These assays should be used for their diagnostic indication on approved specimen types, collected within the appropriate timeframe, and in acceptable condition [1]. Whole blood, serum, or plasma are recommended for routine diagnostic testing for arboviruses, and urine is specifically recommended for ZIKV NAAT testing [3][4]. Molecular assays are preferred for detecting ZIKV, but RNA detectability is limited following infection [3][4]. Serologic tests should be interpreted with caution due to cross-reactivity and prolonged antibody detection, and their utility depends on the patient's current and prior flavivirus exposures [4]. For pregnant women, testing should not be limited to a subset of samples, even during outbreaks, and accurate diagnosis is particularly important [4]. Testing for ZIKV in pregnant women should consider the potential for prolonged RNA detection in blood and urine, and ZIKV IgM testing should be used with caution due to the risk of false positives reflecting infection prior to pregnancy [4]. \n\nNote: research tool output based on guidelines from ~2023; not medical advice.",
+    "citations": [
+      {
+        "n": 1,
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "source": "WHO",
+        "url": null,
+        "section": "Laboratory tests",
+        "snippet": "Laboratory tests for detecting infection with ZIKV and DENV include direct and indirect detection methods. Direct methods to detect viral material have high specificity and provide reliable evidence of current or very recent infection,…",
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0008"
+      },
+      {
+        "n": 3,
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "source": "WHO",
+        "url": null,
+        "section": "Laboratory testing for Zika virus and dengue virus infections",
+        "snippet": "Interim guidance 14 July 2022 Executive summary Zika virus (ZIKV) and dengue virus (DENV) remain significant public health threats. ZIKV infection is a cause of microcephaly and other congenital malformations and can cause neurological…",
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0000"
+      },
+      {
+        "n": 4,
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "source": "WHO",
+        "url": null,
+        "section": "Laboratory testing for Zika virus and dengue virus infections",
+        "snippet": "- WHO recommends the use of whole blood, serum, or plasma routine diagnostic testing for arboviruses, and urine for ZIKV NAAT testing. - Molecular assays are the preferred detection method but the period of RNA detectability following…",
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0001"
+      }
+    ],
+    "invalid_citations": [],
+    "citations_valid": true,
+    "retrieved": [
+      {
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0008",
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "score": 0.994629442691803
+      },
+      {
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0002",
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "score": 0.9919338226318359
+      },
+      {
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0000",
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "score": 0.9609812498092651
+      },
+      {
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0001",
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "score": 0.9463521242141724
+      },
+      {
+        "chunk_id": "11d6d16418fd697345c8f068fd31a7eb0c3f72ae:0021",
+        "title": "Laboratory testing for Zika virus and dengue virus infections",
+        "score": 0.9214721322059631
+      }
+    ],
+    "timings": {
+      "retrieval_ms": 2505.9,
+      "generation_ms": 26784.9,
+      "total_ms": 29290.8
+    },
+    "mode": "hybrid_rerank",
+    "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+    "disclaimer": "GuideCite is a research/portfolio tool built on a ~2023 guideline snapshot. It is not medical advice."
+  },
+  {
+    "question": "What is the recommended treatment for a broken wrist in a cat?",
+    "answer": "The provided guideline excerpts do not contain enough information to answer this question. The context passages discuss human medical conditions and treatments, such as fractures in adults, plague infection, and joint replacement procedures. There is no information about treating broken wrists in cats. \n\nNote: research tool output based on guidelines from ~2023; not medical advice.",
+    "citations": [],
+    "invalid_citations": [],
+    "citations_valid": true,
+    "retrieved": [
+      {
+        "chunk_id": "e2cb194bc47c7ab1919dae7545c59fea1fc9340a:0002",
+        "title": "He required hemodialysis and mechanical ventilation and underwent bilateral foot amputations subsequently…",
+        "score": 0.041643861681222916
+      },
+      {
+        "chunk_id": "350b17f89fc0afe4b16009ab7f52100391fe96bc:0000",
+        "title": "Low-intensity pulsed ultrasound to promote healing of fresh fractures at high risk of non-healing",
+        "score": 0.03196494281291962
+      },
+      {
+        "chunk_id": "ba26c071ed80be2ae4b0ded4c860ef08e5811cba:0005",
+        "title": "Total distal radioulnar joint replacement for symptomatic joint instability or arthritis",
+        "score": 0.011836824007332325
+      },
+      {
+        "chunk_id": "28feb1c32cfbe3df6fdd23b374e3ee02c9985bb9:0006",
+        "title": "The designations employed and the presentation of the material in this publication do not imply the…",
+        "score": 0.008701096288859844
+      },
+      {
+        "chunk_id": "ba26c071ed80be2ae4b0ded4c860ef08e5811cba:0000",
+        "title": "Total distal radioulnar joint replacement for symptomatic joint instability or arthritis",
+        "score": 0.0058357627131044865
+      }
+    ],
+    "timings": {
+      "retrieval_ms": 2218.6,
+      "generation_ms": 17188.2,
+      "total_ms": 19406.7
+    },
+    "mode": "hybrid_rerank",
+    "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+    "disclaimer": "GuideCite is a research/portfolio tool built on a ~2023 guideline snapshot. It is not medical advice."
+  }
+]

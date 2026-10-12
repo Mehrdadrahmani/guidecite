@@ -5,7 +5,7 @@
 | 0 Environment + scaffold | done | env, uv install, lock, 24 tests, ruff clean |
 | 1 Data | done | 300 docs (100/source) -> 8,634 chunks, max 460 tokens, no empty chunks, metadata complete |
 | 2 Index + retrieval | done | 8,634 vectors (bge-base, MPS, 210s) + BM25; smoke test passes in all 4 modes |
-| 3 Generation | code written | needs API key |
+| 3 Generation | done | 5 real Q&As (results/demo_answers.json): all citations valid, out-of-scope question declined, ~17-27 s/answer on laptop |
 | 4 Evaluation | todo | |
 | 5 API + Docker | todo | Docker not installed on dev machine |
 | 6 Tests + CI | tests drafted | |

@@ -68,6 +68,7 @@ judge:
 ollama:
   num_ctx: 8192        # RAG prompts are ~3k tokens; Ollama's default window can be smaller
   reasoning: false     # disable qwen3 "thinking" for speed and parseable outputs
+  no_think_suffix: /no_think   # Qwen3 soft switch; the HF GGUF template ignores think=false
   keep_alive: 30m
 
 eval:

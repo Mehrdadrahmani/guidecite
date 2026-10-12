@@ -32,3 +32,11 @@ def test_invalid_ids_rejected():
     assert not rep.all_valid
     assert sorted(rep.invalid) == [0, 4]
     assert [c.n for c in rep.citations] == [2]
+
+
+def test_strip_think_blocks():
+    from medguide.generation.llm import strip_think
+
+    assert strip_think("</think>\n\nOK") == "OK"
+    assert strip_think("<think>\nreasoning [9]\n</think>\nAnswer [1].") == "Answer [1]."
+    assert strip_think("plain answer") == "plain answer"
