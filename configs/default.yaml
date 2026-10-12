@@ -52,17 +52,23 @@ reranker:
   batch_size: 16
 
 llm:
-  # provider/model are read from env (LLM_PROVIDER / LLM_MODEL); these are fallbacks
-  provider: anthropic
-  model: claude-haiku-5-5
+  # provider/model are read from env (LLM_PROVIDER / LLM_MODEL); these are fallbacks.
+  # Default is a free local model; set anthropic/openai/openrouter in .env to use an API.
+  provider: ollama
+  model: qwen3:8b
   temperature: 0.0
   max_tokens: 1024
   answer_prompt: answer_system.txt
 
 judge:
-  provider: anthropic
-  model: claude-haiku-5-5
+  provider: ollama
+  model: qwen3:8b
   small_judge_models: [ollama]   # providers whose RAGAS scores get a low-reliability label
+
+ollama:
+  num_ctx: 8192        # RAG prompts are ~3k tokens; Ollama's default window can be smaller
+  reasoning: false     # disable qwen3 "thinking" for speed and parseable outputs
+  keep_alive: 30m
 
 eval:
   n_questions: 200

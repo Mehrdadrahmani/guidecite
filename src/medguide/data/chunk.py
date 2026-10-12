@@ -58,7 +58,9 @@ def make_prefix(title: str, section: str | None) -> str:
     prefix = f"Title: {title}\n"
     if section:
         words = section.split()
-        label = " ".join(words[:MAX_SECTION_WORDS]) + ("…" if len(words) > MAX_SECTION_WORDS else "")
+        label = " ".join(words[:MAX_SECTION_WORDS]) + (
+            "…" if len(words) > MAX_SECTION_WORDS else ""
+        )
         prefix += f"Section: {label}\n"
     return prefix + "\n"
 
