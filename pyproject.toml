@@ -34,6 +34,7 @@ dependencies = [
     "scipy>=1.13",
     "statsmodels>=0.14",
     "matplotlib>=3.9",
+    "tabulate>=0.9",
     # api / config
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",

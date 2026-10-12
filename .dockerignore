@@ -1,0 +1,11 @@
+data/
+.env
+.git/
+**/__pycache__/
+.pytest_cache/
+.ruff_cache/
+results/
+eval/
+notebooks/
+*.md
+!README.md

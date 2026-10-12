@@ -444,6 +444,8 @@ statsmodels==0.15.0
     # via medguide (pyproject.toml)
 sympy==1.14.0
     # via torch
+tabulate==0.10.0
+    # via medguide (pyproject.toml)
 tenacity==9.2.1
     # via
     #   instructor

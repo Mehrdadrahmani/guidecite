@@ -1,0 +1,61 @@
+# GuideCite: Qdrant server + API.
+#   1. make data            (on the host, creates data/processed)
+#   2. docker compose --profile tools run --rm indexer   (embeds into the Qdrant server)
+#   3. docker compose up -d
+# The LLM runs outside the containers (Ollama on the host by default, or an API key in .env).
+name: guidecite
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.15.0
+    ports: ["6333:6333"]
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    image: guidecite-api:latest
+    env_file: .env
+    environment:
+      VECTOR_STORE_MODE: server
+      QDRANT_URL: http://qdrant:6333
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports: ["8000:8000"]
+    volumes:
+      - ./data:/app/data            # BM25 index + manifest (data/index)
+      - hf_cache:/app/.cache        # embedding / reranker weights
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 180s
+      retries: 3
+
+  indexer:
+    image: guidecite-api:latest
+    profiles: ["tools"]
+    env_file: .env
+    environment:
+      VECTOR_STORE_MODE: server
+      QDRANT_URL: http://qdrant:6333
+    volumes:
+      - ./data:/app/data
+      - hf_cache:/app/.cache
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    command: ["python", "scripts/build_index.py"]
+
+volumes:
+  qdrant_storage:
+  hf_cache:
