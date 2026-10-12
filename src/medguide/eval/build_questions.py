@@ -7,6 +7,7 @@ Writes eval/questions_draft.jsonl and eval/review.csv (smoke runs write *_smoke 
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -20,7 +21,21 @@ from medguide.generation.llm import (
     text_of,
 )
 
-OVERSAMPLE = 1.4  # extra candidates to absorb SKIP / DROP
+OVERSAMPLE = 1.8  # extra candidates to absorb SKIP / DROP
+
+# sections about how a guideline was made, not about care: no useful clinical questions
+_ADMIN_SECTION = re.compile(
+    r"method|development|grade|evidence (?:profile|summary|review)|search strateg|declaration|"
+    r"interest|acknowledg|reference|contributor|member|dissemination|update|funding|"
+    r"abbreviation|glossary|contents|annex|appendix|disclosure|continuing education",
+    re.IGNORECASE,
+)
+# deterministic guard: small judges miss these
+_NOT_SELF_CONTAINED = re.compile(
+    r"\b(the|this|that) (passage|text|document|guideline|guidance|report|statement|study|"
+    r"studies|section|excerpt)\b|according to",
+    re.IGNORECASE,
+)
 
 
 def _body(text: str) -> str:
@@ -30,6 +45,7 @@ def _body(text: str) -> str:
 def sample_chunks(chunks: pd.DataFrame, n: int, sources: list[str], seed: int) -> pd.DataFrame:
     """Stratified by source; very short chunks are excluded (rarely contain a fact)."""
     pool = chunks[chunks["n_tokens"] >= 120]
+    pool = pool[~pool["section"].fillna("").str.contains(_ADMIN_SECTION)]
     per_source = int(round(n * OVERSAMPLE / len(sources)))
     parts = [
         pool[pool["source"] == s].sample(
@@ -44,7 +60,8 @@ def clean_question(text: str) -> str | None:
     q = text.strip().strip('"').strip()
     if not q or q.upper().startswith("SKIP") or "?" not in q:
         return None
-    return q.splitlines()[0].strip()
+    q = q.splitlines()[0].strip()
+    return None if _NOT_SELF_CONTAINED.search(q) else q
 
 
 def main() -> None:
@@ -59,7 +76,12 @@ def main() -> None:
 
     cands = sample_chunks(load_chunks(cfg), n_target, sources, cfg["seed"])
     if args.limit:
-        cands = cands.groupby("source").head(-(-args.limit // len(sources))).head(args.limit)
+        cands = (
+            cands.groupby("source")
+            .head(-(-args.limit // len(sources)))
+            .head(args.limit)
+            .reset_index(drop=True)
+        )
     print_estimate(
         "question generation + filter",
         2 * len(cands),

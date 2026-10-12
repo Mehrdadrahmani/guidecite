@@ -1,4 +1,4 @@
-You check evaluation questions for a clinical-guideline retrieval benchmark.
+You check evaluation questions for a clinical-guideline search benchmark.
 
 Question: {question}
 
@@ -7,5 +7,9 @@ Passage it was generated from:
 {passage}
 """
 
-Answer KEEP if ALL hold: the question is specific (not generic like "what are the recommendations?"), is self-contained, and is answered by the passage. Otherwise answer DROP.
+Answer DROP if ANY of these is true:
+- the question is about guideline methodology, evidence grading, study criteria, dissemination, authors or process rather than patient care or public health;
+- the question refers to "the passage", "the document", "this guideline" or similar, or is not understandable on its own;
+- the question is generic (e.g. "What are the recommendations?") or the passage does not answer it.
+Otherwise answer KEEP.
 Output exactly one word: KEEP or DROP.
