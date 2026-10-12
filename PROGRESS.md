@@ -19,13 +19,12 @@
 - CDC and WHO docs have no title/url in the dataset; titles are inferred (`title_inferred`), see DECISIONS.md.
 - ragas 0.4.3 needs langchain-community<0.4.2 (pinned).
 
-## Paused (2026-10-12) — resume here
-- LLM decision: $0 budget -> local Ollama, `qwen3:8b` (thinking off, num_ctx 8192). Config defaults set.
-  Kaggle (vLLM) for final heavy runs is an open option; needs the repo on GitHub.
-- Ollama 0.40.3 installed via brew. `registry.ollama.ai` is unreachable (likely geo-block),
-  so pull from Hugging Face instead: `ollama pull hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M` (~5 GB),
-  then set `LLM_MODEL` in .env to that name.
+## Paused (2026-10-12, 17:30) — resume here
+- Model installed: `hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M` (Ollama, pulled from HF; registry.ollama.ai is blocked).
 - Start server: `OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve`
-- Next: pull model -> Phase 3 (5 real Q&As, citations resolve) -> Phase 4 smoke tests.
-- Judge model not chosen yet (different family preferred, e.g. a Gemma GGUF from HF).
-- Smoke retrieval note: no adult-hypertension guideline in the 300-doc sample (coverage limitation).
+- Phase 4 status: question-generation prompts/filters tuned on smoke tests (15 items look good).
+  Full run (`make eval-questions`, ~720 calls, ~35-45 min) was started and stopped after 2 min; restart it.
+- Then: `make eval-retrieval` (no LLM) -> smoke `make eval-ragas ARGS="--limit 10"` and
+  `make eval-mcq ARGS="--limit 10"` for timings -> full runs overnight (`caffeinate -i`).
+- Then: `make report`, README, final AGENTS.md/CLAUDE.md check.
+- Docker files are written but untested (Docker not installed).
