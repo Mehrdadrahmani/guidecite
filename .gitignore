@@ -1,6 +1,6 @@
 # data, indexes, caches (recreate with `make data index`)
-data/
-!data/.gitkeep
+/data/
+!/data/.gitkeep
 *.parquet
 .cache/
 hf_cache/

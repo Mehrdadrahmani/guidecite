@@ -1,0 +1,26 @@
+{
+  "documents": 300,
+  "chunks": 8634,
+  "chunks_per_source": {
+    "who": 3689,
+    "cdc": 2730,
+    "nice": 2215
+  },
+  "tokens_min": 31,
+  "tokens_max": 460,
+  "tokens_mean": 301.8,
+  "tokens_quantiles": {
+    "p5": 123,
+    "p25": 241,
+    "p50": 323,
+    "p75": 376,
+    "p95": 421
+  },
+  "docs_per_source": {
+    "cdc": 100,
+    "nice": 100,
+    "who": 100
+  },
+  "docs_without_url": 200,
+  "chunks_with_section": 8193
+}

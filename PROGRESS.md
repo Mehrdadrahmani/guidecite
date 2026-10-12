@@ -2,8 +2,8 @@
 
 | Phase | Status | Verified |
 |---|---|---|
-| 0 Environment + scaffold | in progress | env created (conda-forge), uv installed |
-| 1 Data | code written | — |
+| 0 Environment + scaffold | done | env, uv install, lock, 24 tests, ruff clean |
+| 1 Data | done | 300 docs (100/source) -> 8,634 chunks, max 460 tokens, no empty chunks, metadata complete |
 | 2 Index + retrieval | code written | — |
 | 3 Generation | code written | needs API key |
 | 4 Evaluation | todo | |
@@ -16,3 +16,6 @@
   (the `defaults` channel returned HTTP 403).
 - Dataset schema: id, source, title, clean_text, raw_text, url, overview. Missing values are the string "None".
   Source tags: who (223), cdc (621), nice (1656).
+- CDC and WHO docs have no title/url in the dataset; titles are inferred (`title_inferred`), see DECISIONS.md.
+- ragas 0.4.3 needs langchain-community<0.4.2 (pinned).
+- Budget: user wants $0 spend -> local LLM (Ollama) or free GPU (Kaggle); awaiting decision.

@@ -62,3 +62,29 @@ def test_short_doc_is_single_chunk():
     doc = dict(DOC, text="Just one short paragraph about fever management in children.")
     chunks = chunk_document(doc, WordSplitter(80, 10), count, 120, min_chunk_tokens=3)
     assert len(chunks) == 1 and chunks[0].section is None
+
+
+def test_glued_heading_is_split_and_missing_title_inferred():
+    import pandas as pd
+
+    from medguide.data.clean import clean_documents
+
+    raw = pd.DataFrame(
+        [
+            {
+                "id": "x",
+                "source": "cdc",
+                "title": "None",
+                "url": "None",
+                "overview": "None",
+                "text": "# Acrylamide exposure criteria\nIntro was reviewed.# BACKGROUND\nBody.",
+            }
+        ]
+    )
+    doc = clean_documents(raw).iloc[0]
+    assert doc["title"] == "Acrylamide exposure criteria"
+    assert doc["url"] is None
+    assert [s.heading for s in split_sections(doc["text"])] == [
+        "Acrylamide exposure criteria",
+        "BACKGROUND",
+    ]
