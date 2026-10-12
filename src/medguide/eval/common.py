@@ -30,6 +30,19 @@ def write_jsonl(path: str | Path, rows: list[dict]) -> None:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def enable_llm_cache(cfg: dict) -> Path:
+    """Persist every LLM response on disk (data/cache) so an interrupted eval run resumes
+    where it stopped. Valid because all calls use temperature 0; delete the file to force
+    fresh calls (e.g. after changing a prompt template the cache key changes anyway)."""
+    from langchain_community.cache import SQLiteCache
+    from langchain_core.globals import set_llm_cache
+
+    path = Path(cfg["paths"]["index_dir"]).parent / "cache" / "llm_cache.sqlite"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    set_llm_cache(SQLiteCache(database_path=str(path)))
+    return path
+
+
 def print_estimate(task: str, n_calls: int, model: str) -> None:
     print(f"[cost] {task}: ~{n_calls} LLM calls with {model}")
 

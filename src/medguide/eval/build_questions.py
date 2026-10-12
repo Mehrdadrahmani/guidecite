@@ -13,7 +13,13 @@ from pathlib import Path
 import pandas as pd
 
 from medguide.config import load_config
-from medguide.eval.common import batch_invoke, load_chunks, print_estimate, write_jsonl
+from medguide.eval.common import (
+    batch_invoke,
+    enable_llm_cache,
+    load_chunks,
+    print_estimate,
+    write_jsonl,
+)
 from medguide.generation.llm import (
     generator_from_config,
     judge_from_config,
@@ -70,6 +76,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None, help="smoke test: N candidates only")
     args = parser.parse_args()
     cfg = load_config()
+    print(f"LLM cache: {enable_llm_cache(cfg)}")
     ecfg = cfg["eval"]
     n_target = args.n or ecfg["n_questions"]
     sources = cfg["data"]["sources"]

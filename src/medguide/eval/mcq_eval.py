@@ -14,7 +14,7 @@ import re
 import pandas as pd
 
 from medguide.config import load_config
-from medguide.eval.common import batch_invoke, print_estimate, results_dir
+from medguide.eval.common import batch_invoke, enable_llm_cache, print_estimate, results_dir
 from medguide.generation.answer import format_context
 from medguide.generation.llm import generator_from_config, load_prompt, text_of
 from medguide.retrieval.pipeline import Retriever
@@ -96,6 +96,7 @@ def main() -> None:
     parser.add_argument("--modes", nargs="+", default=list(CONDITIONS))
     args = parser.parse_args()
     cfg = load_config()
+    print(f"LLM cache: {enable_llm_cache(cfg)}")
     ecfg = cfg["eval"]
     n = args.limit or ecfg["mcq_n"]
     mcq = load_mcq(cfg, n, cfg["seed"])

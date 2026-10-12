@@ -19,6 +19,7 @@ import pandas as pd
 from medguide.config import load_config
 from medguide.eval.common import (
     UNVERIFIED,
+    enable_llm_cache,
     load_chunks,
     load_eval_questions,
     print_estimate,
@@ -107,6 +108,7 @@ def main() -> None:
     parser.add_argument("--skip-ragas", action="store_true")
     args = parser.parse_args()
     cfg = load_config()
+    print(f"LLM cache: {enable_llm_cache(cfg)}")
     ecfg = cfg["eval"]
     mode = args.mode or cfg["retrieval"]["mode"]
     workers = ecfg["max_concurrency"]
