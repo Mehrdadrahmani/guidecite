@@ -77,6 +77,7 @@ eval:
   mcq_n: 300
   mcq_dataset: GBaker/MedQA-USMLE-4-options   # English MedQA (USMLE, 4 options)
   mcq_split: test
+  mcq_max_tokens: 256
   smoke_n: 10
   max_concurrency: 2   # local Ollama serves ~2 requests in parallel; raise for API providers
 

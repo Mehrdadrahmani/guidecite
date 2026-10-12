@@ -6,5 +6,5 @@ You are answering a multiple-choice medical exam question. {context_instruction}
 Options:
 {options}
 
-Think briefly, then give your final answer on the last line in exactly this format:
+Give at most two short sentences of reasoning, then the final answer on the last line in exactly this format:
 Answer: <letter>

@@ -1,0 +1,6 @@
+{
+  "label": "UNVERIFIED (synthetic)",
+  "n_questions": 201,
+  "embedding": "BAAI/bge-base-en-v1.5",
+  "reranker": "BAAI/bge-reranker-base"
+}

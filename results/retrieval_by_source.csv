@@ -1,0 +1,13 @@
+mode,source,n,recall@5,mrr@10
+dense,who,67,0.7761,0.6709
+dense,cdc,67,0.8358,0.7236
+dense,nice,67,0.8657,0.6973
+bm25,who,67,0.8657,0.7505
+bm25,cdc,67,0.9701,0.8027
+bm25,nice,67,0.8507,0.7242
+hybrid,who,67,0.8657,0.7088
+hybrid,cdc,67,0.9552,0.8307
+hybrid,nice,67,0.9254,0.7321
+hybrid_rerank,who,67,0.8657,0.7947
+hybrid_rerank,cdc,67,0.9701,0.8649
+hybrid_rerank,nice,67,0.9851,0.8968

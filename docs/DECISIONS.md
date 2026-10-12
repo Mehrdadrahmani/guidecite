@@ -107,3 +107,11 @@ prompt that asks for clinician-style, self-contained, paraphrased questions and 
 Alternative: LLM filter only.
 Why: in the first smoke test the 8B judge kept 10/10, including "...according to the passage?" and
 questions about evidence-grading criteria. Cheap deterministic checks catch what a small judge misses.
+
+## MCQ prompt: brief reasoning, 256-token cap
+Chosen: at most two sentences of reasoning, then `Answer: <letter>`, with output capped at 256 tokens.
+The prompt is identical across the four conditions (none / dense / hybrid / hybrid_rerank).
+Alternative: open-ended chain of thought, or the letter only.
+Why: open-ended "think briefly" made Qwen3-8B write ~1k-token explanations (55–70 s per call, ~10 h
+for 1,200 calls on the laptop). Two sentences keep a little reasoning and cut calls to 4–8 s.
+Changed after a 10-item smoke test, before any full run.

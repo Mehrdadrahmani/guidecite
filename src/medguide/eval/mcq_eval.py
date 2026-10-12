@@ -16,7 +16,7 @@ import pandas as pd
 from medguide.config import load_config
 from medguide.eval.common import batch_invoke, enable_llm_cache, print_estimate, results_dir
 from medguide.generation.answer import format_context
-from medguide.generation.llm import generator_from_config, load_prompt, text_of
+from medguide.generation.llm import load_prompt, make_chat_model, text_of
 from medguide.retrieval.pipeline import Retriever
 
 LETTERS = "ABCD"
@@ -104,7 +104,14 @@ def main() -> None:
     print_estimate("MCQ", len(mcq) * len(args.modes), model)
 
     tmpl = load_prompt(cfg, "mcq.txt")
-    llm = generator_from_config(cfg)
+    # short reasoning + a hard output cap: an 8B model otherwise writes ~1k-token essays (~60 s/call)
+    llm = make_chat_model(
+        cfg["llm"]["provider"],
+        cfg["llm"]["model"],
+        0.0,
+        ecfg.get("mcq_max_tokens", 256),
+        cfg.get("ollama"),
+    )
     retriever = Retriever(cfg)
     top_k = cfg["retrieval"]["top_k"]
     rows = []
