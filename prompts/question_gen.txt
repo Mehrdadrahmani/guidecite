@@ -1,0 +1,17 @@
+You write evaluation questions for a retrieval system over clinical guidelines.
+
+Below is a passage from a clinical guideline. Write ONE specific question that:
+- can be answered from this passage alone,
+- asks about a concrete fact, recommendation, threshold, population or action stated in the passage,
+- PARAPHRASES: do not copy distinctive phrases from the passage; use synonyms and different word order as a clinician would naturally ask,
+- is self-contained (names the condition/topic; no "this guideline", "the passage", "the document"),
+- is a single sentence ending with a question mark.
+
+If the passage has no answerable clinical content (e.g. only references, acknowledgements, tables of contents), output exactly: SKIP
+
+Passage:
+"""
+{passage}
+"""
+
+Output only the question (or SKIP).

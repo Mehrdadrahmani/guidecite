@@ -1,0 +1,28 @@
+# data, indexes, caches (recreate with `make data index`)
+data/
+!data/.gitkeep
+*.parquet
+.cache/
+hf_cache/
+qdrant_storage/
+
+# secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+
+# private build spec
+medguide_rag_claude_code_prompt*.md

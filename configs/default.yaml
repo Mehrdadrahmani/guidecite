@@ -1,0 +1,78 @@
+# GuideCite default configuration. Every model / language choice lives here.
+language: en
+seed: 42
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  index_dir: data/index
+  results_dir: results
+  eval_dir: eval
+  prompts_dir: prompts
+
+data:
+  hf_dataset: epfl-llm/guidelines
+  text_field: clean_text
+  sources: [who, cdc, nice]
+  docs_per_source: 100
+  min_words: 300
+  max_words: 15000
+
+chunking:
+  chunk_tokens: 450
+  overlap_tokens: 64
+  tokenizer: BAAI/bge-base-en-v1.5   # token counting uses the embedding tokenizer
+  min_chunk_tokens: 20
+
+embedding:
+  model: BAAI/bge-base-en-v1.5
+  cpu_fallback_model: BAAI/bge-small-en-v1.5
+  query_instruction: "Represent this sentence for searching relevant passages: "
+  normalize: true
+  batch_size: null          # null -> chosen from hardware
+
+vector_store:
+  collection: guidecite_en
+  mode: local               # local (data/index/qdrant) | server (QDRANT_URL)
+
+bm25:
+  filename: bm25.pkl         # under paths.index_dir
+  lowercase: true
+
+retrieval:
+  mode: hybrid_rerank       # dense | bm25 | hybrid | hybrid_rerank
+  dense_k: 30
+  bm25_k: 30
+  rrf_k: 60
+  rerank_candidates: 25
+  top_k: 5
+
+reranker:
+  model: BAAI/bge-reranker-base
+  batch_size: 16
+
+llm:
+  # provider/model are read from env (LLM_PROVIDER / LLM_MODEL); these are fallbacks
+  provider: anthropic
+  model: claude-haiku-5-5
+  temperature: 0.0
+  max_tokens: 1024
+  answer_prompt: answer_system.txt
+
+judge:
+  provider: anthropic
+  model: claude-haiku-5-5
+  small_judge_models: [ollama]   # providers whose RAGAS scores get a low-reliability label
+
+eval:
+  n_questions: 200
+  ragas_subset: 50
+  mcq_n: 300
+  mcq_dataset: GBaker/MedQA-USMLE-4-options   # English MedQA (USMLE, 4 options)
+  mcq_split: test
+  smoke_n: 10
+  max_concurrency: 8
+
+api:
+  max_question_chars: 1000
+  max_top_k: 20

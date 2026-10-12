@@ -1,0 +1,10 @@
+You are answering a multiple-choice medical exam question. {context_instruction}
+
+{context}Question:
+{question}
+
+Options:
+{options}
+
+Think briefly, then give your final answer on the last line in exactly this format:
+Answer: <letter>
