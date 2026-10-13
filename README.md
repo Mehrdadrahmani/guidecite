@@ -13,7 +13,7 @@ when the guidelines do not cover the question.
 ![LangChain](https://img.shields.io/badge/LangChain-1.x-1C3C3C?logo=langchain&logoColor=white)
 ![Qdrant](https://img.shields.io/badge/Qdrant-vector%20DB-DC244C)
 ![Ollama](https://img.shields.io/badge/Ollama-local%20LLM-000000?logo=ollama&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-35%20passing-2EA44F?logo=pytest&logoColor=white)
+[![CI](https://github.com/Mehrdadrahmani/guidecite/actions/workflows/ci.yml/badge.svg)](https://github.com/Mehrdadrahmani/guidecite/actions/workflows/ci.yml)
 ![Code style](https://img.shields.io/badge/code%20style-ruff-D7FF64?logo=ruff&logoColor=black)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -85,7 +85,7 @@ human-verified; see [Limitations](#limitations).
   latency timings, a health endpoint and a medical disclaimer in every response.
 - **Rigorous, resumable evaluation:** cost estimates and a 10-item smoke test before every
   LLM-heavy run, and a persistent LLM cache so interrupted runs resume where they stopped.
-- **Engineering hygiene:** a typed, modular package, 35 offline unit tests, ruff, GitHub
+- **Engineering hygiene:** a typed, modular package, 36 offline unit tests, ruff, GitHub
   Actions CI, a lockfile, a Dockerfile and docker-compose, and a
   [design decision log](docs/DECISIONS.md).
 
