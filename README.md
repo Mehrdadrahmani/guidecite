@@ -15,6 +15,7 @@ when the guidelines do not cover the question.
 ![Ollama](https://img.shields.io/badge/Ollama-local%20LLM-000000?logo=ollama&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-35%20passing-2EA44F?logo=pytest&logoColor=white)
 ![Code style](https://img.shields.io/badge/code%20style-ruff-D7FF64?logo=ruff&logoColor=black)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
@@ -363,6 +364,8 @@ Each major choice is documented with the alternatives considered in
 - [ ] Persian support: cross-lingual retrieval over English guidelines
 
 ## Data and licensing
+
+The code is released under the [MIT License](LICENSE).
 
 Guideline texts come from the
 [`epfl-llm/guidelines`](https://huggingface.co/datasets/epfl-llm/guidelines) dataset and remain
