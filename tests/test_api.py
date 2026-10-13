@@ -59,7 +59,16 @@ def test_health():
     with make_client("x") as client:
         body = client.get("/health").json()
         assert body["status"] == "ok"
+        assert body["model"] and body["default_mode"]
         assert "not medical advice" in body["disclaimer"]
+
+
+def test_web_ui_is_served():
+    with make_client("x") as client:
+        res = client.get("/")
+        assert res.status_code == 200
+        assert res.headers["content-type"].startswith("text/html")
+        assert "GuideCite" in res.text and "Not medical advice" in res.text
 
 
 def test_ask_returns_structured_answer():

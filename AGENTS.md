@@ -25,7 +25,7 @@ make eval-retrieval   # Recall@k / MRR per mode -> results/
 make eval-ragas       # RAGAS + citation validity + abstention (LLM calls)
 make eval-mcq         # MCQ with/without retrieval (LLM calls)
 make report           # results/ablation.md + chart
-make serve            # FastAPI on :8000
+make serve            # web UI at http://localhost:8000, API docs at /docs
 make test             # pytest (offline)
 make lint             # ruff check + format check
 ```

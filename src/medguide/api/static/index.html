@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GuideCite</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b7a55'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'>[n]</text></svg>">
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1f2933; --muted: #616e7c; --border: #e1e5ea;
+    --accent: #0b7a55; --accent-soft: #e6f4ee; --accent-text: #ffffff;
+    --warn-bg: #fff8e6; --warn-border: #f0d9a0; --warn-text: #7a5300;
+    --who: #1f6feb; --cdc: #b35900; --nice: #7a3fb5; --flash: #fff3c4;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 1px 3px rgba(16, 24, 40, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1419; --panel: #171d24; --text: #e6e9ed; --muted: #9aa5b1; --border: #2a323c;
+      --accent: #3ccf91; --accent-soft: #15302a; --accent-text: #0f1419;
+      --warn-bg: #2a2414; --warn-border: #5a4a1e; --warn-text: #f0cf7a;
+      --who: #6aa5ff; --cdc: #ffa552; --nice: #c39bf0; --flash: #3a3418;
+      --shadow: none;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 16px 48px; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 40px; height: 40px; border-radius: 10px; background: var(--accent); color: var(--accent-text);
+    display: grid; place-items: center; font-weight: 800; font-size: 14px; letter-spacing: -.5px;
+  }
+  h1 { font-size: 22px; margin: 0; line-height: 1.2; }
+  .tagline { color: var(--muted); font-size: 13.5px; }
+  .status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #9aa5b1; }
+  .dot.ok { background: #2ea44f; } .dot.bad { background: #d73a49; }
+  .disclaimer {
+    margin: 20px 0; padding: 10px 14px; border-radius: 10px; font-size: 13.5px;
+    background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text);
+  }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); }
+  form.card { padding: 16px; }
+  textarea {
+    width: 100%; min-height: 84px; resize: vertical; padding: 12px 14px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit;
+  }
+  textarea:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .controls label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  select {
+    padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--panel); color: var(--text); font: inherit; font-size: 13.5px;
+  }
+  button.primary {
+    padding: 9px 20px; border: 0; border-radius: 9px; background: var(--accent); color: var(--accent-text);
+    font: inherit; font-weight: 600; cursor: pointer;
+  }
+  button.primary:disabled { opacity: .55; cursor: progress; }
+  .examples { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .examples span { font-size: 12.5px; color: var(--muted); margin-right: 2px; }
+  .chip-btn {
+    border: 1px solid var(--border); background: var(--panel); color: var(--text); border-radius: 999px;
+    padding: 5px 12px; font: inherit; font-size: 12.5px; cursor: pointer;
+  }
+  .chip-btn:hover { border-color: var(--accent); color: var(--accent); }
+  #progress { display: none; margin-top: 20px; padding: 18px; }
+  .steps { display: flex; gap: 22px; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); }
+  .step::before { content: "○ "; } .step.active { color: var(--text); font-weight: 600; }
+  .step.active::before { content: "◐ "; color: var(--accent); } .step.done::before { content: "● "; color: var(--accent); }
+  .bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 14px; }
+  .bar > div { height: 100%; width: 30%; background: var(--accent); animation: slide 1.4s ease-in-out infinite; }
+  @keyframes slide { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
+  .hint { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+  #error { display: none; margin-top: 20px; padding: 14px 16px; border-color: #d73a49; color: #d73a49; }
+  #result { display: none; margin-top: 20px; }
+  .answer { padding: 20px 22px; }
+  .answer-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .answer-head h2 { font-size: 15px; margin: 0; }
+  .badge { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .badge.warn { background: var(--warn-bg); color: var(--warn-text); }
+  .answer-body p { margin: 0 0 10px; } .answer-body ul { margin: 0 0 10px; padding-left: 22px; }
+  .answer-body .note { color: var(--muted); font-size: 13px; }
+  .cite {
+    display: inline-block; min-width: 20px; padding: 0 5px; margin: 0 1px; border-radius: 6px;
+    background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700;
+    line-height: 18px; text-align: center; vertical-align: 1px; cursor: pointer; border: 0; font-family: inherit;
+  }
+  .cite.invalid { background: #fde2e4; color: #b4232f; cursor: help; }
+  .meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 14px; padding-top: 12px; }
+  .meta b { color: var(--text); font-weight: 600; }
+  h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 24px 4px 10px; }
+  .sources { display: grid; gap: 10px; }
+  .source { padding: 14px 16px; transition: background .4s; }
+  .source.flash { background: var(--flash); }
+  .source-head { display: flex; align-items: baseline; gap: 10px; }
+  .num { font-weight: 800; color: var(--accent); min-width: 26px; }
+  .org { font-size: 11px; font-weight: 700; letter-spacing: .5px; padding: 1px 7px; border-radius: 5px; border: 1px solid currentColor; }
+  .org.WHO { color: var(--who); } .org.CDC { color: var(--cdc); } .org.NICE { color: var(--nice); }
+  .title { font-weight: 600; }
+  .section { font-size: 12.5px; color: var(--muted); margin: 2px 0 0 36px; }
+  .snippet { font-size: 13.5px; color: var(--muted); margin: 8px 0 0 36px; white-space: pre-wrap; }
+  .source a { font-size: 12.5px; color: var(--accent); margin-left: 36px; }
+  details.card { padding: 12px 16px; }
+  details summary { cursor: pointer; font-size: 13.5px; color: var(--muted); }
+  details .source { border-top: 1px solid var(--border); border-radius: 0; padding: 12px 0 4px; }
+  footer { margin-top: 36px; font-size: 12.5px; color: var(--muted); text-align: center; }
+  footer a { color: var(--muted); }
+  @media (max-width: 600px) { .section, .snippet, .source a { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">[n]</div>
+      <div>
+        <h1>GuideCite</h1>
+        <div class="tagline">Answers from clinical guidelines, with citations.</div>
+      </div>
+    </div>
+    <div class="status"><span id="dot" class="dot"></span><span id="status">Connecting…</span></div>
+  </header>
+
+  <div class="disclaimer">
+    <strong>Not medical advice.</strong> Research and portfolio tool built on a ~2023 snapshot of
+    300 WHO, CDC and NICE guidelines. Answers can be incomplete or outdated.
+  </div>
+
+  <form id="ask" class="card">
+    <textarea id="question" maxlength="1000" required
+      placeholder="Ask a clinical or public-health question, e.g. Which groups should be screened for latent tuberculosis infection?"></textarea>
+    <div class="controls">
+      <label>Retrieval
+        <select id="mode">
+          <option value="hybrid_rerank">Hybrid + rerank (best)</option>
+          <option value="hybrid">Hybrid (BM25 + dense, RRF)</option>
+          <option value="bm25">BM25 (keywords)</option>
+          <option value="dense">Dense (embeddings)</option>
+        </select>
+      </label>
+      <button id="submit" class="primary" type="submit">Ask GuideCite</button>
+    </div>
+    <div class="examples">
+      <span>Try:</span>
+      <button type="button" class="chip-btn">Which groups of people should be screened for latent tuberculosis infection?</button>
+      <button type="button" class="chip-btn">How should laboratories test for Zika virus infection?</button>
+      <button type="button" class="chip-btn">Should inhaled corticosteroids be used for chronic asthma in children under 12?</button>
+      <button type="button" class="chip-btn">What is the recommended treatment for a broken wrist in a cat?</button>
+    </div>
+  </form>
+
+  <div id="progress" class="card">
+    <div class="steps">
+      <span class="step" data-step="0">Searching 8,634 guideline passages</span>
+      <span class="step" data-step="1">Writing a cited answer</span>
+    </div>
+    <div class="bar"><div></div></div>
+    <div class="hint" id="elapsed">0 s</div>
+  </div>
+
+  <div id="error" class="card"></div>
+
+  <div id="result">
+    <div class="card answer">
+      <div class="answer-head"><h2>Answer</h2><span id="verdict" class="badge"></span></div>
+      <div id="answer" class="answer-body"></div>
+      <div class="meta" id="meta"></div>
+    </div>
+    <h3 id="cited-head">Cited sources</h3>
+    <div id="cited" class="sources"></div>
+    <details id="others" class="card" style="margin-top:10px"><summary></summary><div id="other-list"></div></details>
+  </div>
+
+  <footer>
+    Hybrid retrieval (BM25 + bge-base) · cross-encoder rerank · local LLM ·
+    <a href="/docs">REST API docs</a>
+  </footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function checkHealth() {
+  try {
+    const h = await (await fetch("/health")).json();
+    const ok = h.status === "ok";
+    $("dot").className = "dot " + (ok ? "ok" : "bad");
+    $("status").textContent = ok ? "Ready · " + h.model.replace(/^ollama:(hf\.co\/)?/, "") : "Not ready: " + (h.error || "unknown");
+    if (h.default_mode) $("mode").value = h.default_mode;
+  } catch {
+    $("dot").className = "dot bad";
+    $("status").textContent = "API unreachable";
+  }
+}
+
+// Expand "[1]", "[1, 3]", "[2-4]" into citation chips; escape everything else.
+function renderInline(text, validNums) {
+  let html = esc(text).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  return html.replace(/\[(\d+(?:\s*[-–,]\s*\d+)*)\]/g, (_, inner) => {
+    const nums = [];
+    for (const part of inner.split(",")) {
+      const [a, b] = part.split(/[-–]/).map((x) => parseInt(x, 10));
+      if (b && b >= a && b - a < 20) for (let i = a; i <= b; i++) nums.push(i); else nums.push(a);
+    }
+    return nums.map((n) => validNums.has(n)
+      ? `<button class="cite" data-n="${n}" title="Show source ${n}">${n}</button>`
+      : `<span class="cite invalid" title="Citation ${n} does not match a retrieved passage">${n}</span>`).join("");
+  });
+}
+
+function renderAnswer(text, validNums) {
+  const blocks = text.trim().split(/\n\s*\n/);
+  return blocks.map((block) => {
+    const lines = block.split("\n").filter((l) => l.trim());
+    if (lines.length && lines.every((l) => /^\s*[-*•]\s+/.test(l))) {
+      return "<ul>" + lines.map((l) => "<li>" + renderInline(l.replace(/^\s*[-*•]\s+/, ""), validNums) + "</li>").join("") + "</ul>";
+    }
+    const cls = /^note:/i.test(block.trim()) ? ' class="note"' : "";
+    return `<p${cls}>` + lines.map((l) => renderInline(l, validNums)).join("<br>") + "</p>";
+  }).join("");
+}
+
+function sourceCard(n, c, cls = "card source") {
+  const org = esc((c.source || "").toUpperCase());
+  return `<div class="${cls}" id="src-${n}">
+    <div class="source-head"><span class="num">[${n}]</span><span class="org ${org}">${org}</span>
+    <span class="title">${esc(c.title)}</span></div>
+    ${c.section ? `<div class="section">Section: ${esc(c.section)}</div>` : ""}
+    <div class="snippet">${esc(c.snippet)}</div>
+    ${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">Open guideline ↗</a>` : ""}
+  </div>`;
+}
+
+function snippetOf(chunk) {
+  const body = (chunk.text || "").replace(/^Title:.*\n(Section:.*\n)?\n?/, "");
+  return body.length > 260 ? body.slice(0, 260).trimEnd() + "…" : body;
+}
+
+function showResult(r) {
+  const valid = new Set(r.citations.map((c) => c.n));
+  const abstained = /do(es)? not contain enough information/i.test(r.answer);
+  $("answer").innerHTML = renderAnswer(r.answer, valid);
+  const v = $("verdict");
+  if (abstained) { v.textContent = "Declined: not covered by the guidelines"; v.className = "badge warn"; }
+  else if (r.citations_valid) { v.textContent = `✓ ${r.citations.length} citation${r.citations.length === 1 ? "" : "s"}, all verified`; v.className = "badge"; }
+  else { v.textContent = `Invalid citation(s): ${r.invalid_citations.join(", ")}`; v.className = "badge warn"; }
+
+  const t = r.timings || {};
+  const fmt = (ms) => ms >= 1000 ? (ms / 1000).toFixed(1) + " s" : Math.round(ms) + " ms";
+  $("meta").innerHTML = `<span>Retrieval <b>${fmt(t.retrieval_ms)}</b></span><span>Generation <b>${fmt(t.generation_ms)}</b></span>`
+    + `<span>Mode <b>${esc(r.mode)}</b></span><span>Model <b>${esc(r.model.replace(/^ollama:(hf\.co\/)?/, ""))}</b></span>`;
+
+  $("cited-head").style.display = r.citations.length ? "" : "none";
+  $("cited").innerHTML = r.citations.map((c) => sourceCard(c.n, c)).join("");
+
+  const others = r.retrieved.map((h, i) => ({ n: i + 1, chunk: h.chunk })).filter((x) => !valid.has(x.n));
+  $("others").style.display = others.length ? "" : "none";
+  $("others").open = abstained;
+  $("others").querySelector("summary").textContent =
+    `${others.length} other retrieved passage${others.length === 1 ? "" : "s"} (not cited)`;
+  $("other-list").innerHTML = others.map((x) => sourceCard(x.n, { ...x.chunk, snippet: snippetOf(x.chunk) }, "source")).join("");
+  $("result").style.display = "block";
+}
+
+let timer = null;
+function setBusy(busy) {
+  $("submit").disabled = busy;
+  $("submit").textContent = busy ? "Working…" : "Ask GuideCite";
+  $("progress").style.display = busy ? "block" : "none";
+  clearInterval(timer);
+  if (!busy) return;
+  const t0 = Date.now();
+  const steps = document.querySelectorAll(".step");
+  const tick = () => {
+    const s = (Date.now() - t0) / 1000;
+    const phase = s < 2.5 ? 0 : 1;
+    steps.forEach((el, i) => el.className = "step" + (i < phase ? " done" : i === phase ? " active" : ""));
+    $("elapsed").textContent = `${Math.floor(s)} s · a local 8B model usually needs 20–40 s`;
+  };
+  tick();
+  timer = setInterval(tick, 500);
+}
+
+async function ask(question) {
+  $("error").style.display = "none";
+  $("result").style.display = "none";
+  setBusy(true);
+  try {
+    const res = await fetch("/ask", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ question, mode: $("mode").value }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const d = body.detail;
+      throw new Error(Array.isArray(d) ? d.map((e) => e.msg).join("; ") : d || `HTTP ${res.status}`);
+    }
+    showResult(body);
+  } catch (e) {
+    $("error").textContent = "Something went wrong: " + e.message;
+    $("error").style.display = "block";
+  } finally {
+    setBusy(false);
+  }
+}
+
+$("ask").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = $("question").value.trim();
+  if (q.length >= 3) ask(q);
+});
+$("question").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("ask").requestSubmit();
+});
+document.querySelectorAll(".chip-btn").forEach((b) => b.addEventListener("click", () => {
+  $("question").value = b.textContent;
+  $("ask").requestSubmit();
+}));
+$("answer").addEventListener("click", (e) => {
+  const n = e.target.closest(".cite[data-n]")?.dataset.n;
+  const card = n && $("src-" + n);
+  if (!card) return;
+  card.scrollIntoView({ behavior: "smooth", block: "center" });
+  card.classList.add("flash");
+  setTimeout(() => card.classList.remove("flash"), 1200);
+});
+
+checkHealth();
+const preset = new URLSearchParams(location.search).get("q");
+if (preset) { $("question").value = preset; ask(preset); }
+</script>
+</body>
+</html>

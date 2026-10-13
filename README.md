@@ -22,7 +22,11 @@ when the guidelines do not cover the question.
 > **Not medical advice.** GuideCite is a research and portfolio project built on a ~2023 snapshot
 > of public guidelines. Do not use it for clinical decisions.
 
-![GuideCite pipeline](docs/pipeline.png)
+<p align="center">
+  <img src="docs/web-ui.png" alt="GuideCite web app answering a question with verified citations" width="760">
+  <br><sub>The GuideCite web app: a real answer from the local model, with verified, clickable
+  citations and the source passages behind them.</sub>
+</p>
 
 ## Overview
 
@@ -55,8 +59,15 @@ Every number in this README is taken from a file in [`results/`](results/), prod
 evaluation scripts in this repository. The evaluation questions are synthetic and not yet
 human-verified; see [Limitations](#limitations).
 
+## How it works
+
+![GuideCite pipeline](docs/pipeline.png)
+
 ## Features
 
+- **Web app:** ask a question, choose a retrieval mode, and read an answer whose `[n]` citation
+  chips jump to the exact source passage (organisation, guideline title, section and excerpt).
+  It also lists retrieved passages that were not cited, and flags when the model declines.
 - **Hybrid retrieval:** dense search (`BAAI/bge-base-en-v1.5` in Qdrant) and BM25, fused with
   reciprocal rank fusion and reranked by a cross-encoder (`BAAI/bge-reranker-base`).
 - **One-word ablations:** `dense | bm25 | hybrid | hybrid_rerank`, selected in config, through
@@ -76,6 +87,89 @@ human-verified; see [Limitations](#limitations).
 - **Engineering hygiene:** a typed, modular package, 35 offline unit tests, ruff, GitHub
   Actions CI, a lockfile, a Dockerfile and docker-compose, and a
   [design decision log](docs/DECISIONS.md).
+
+## How to use GuideCite
+
+GuideCite runs locally. After a one-time setup it offers four interfaces, all backed by the
+same retrieval and answer pipeline.
+
+### 1. One-time setup
+
+**Prerequisites:** conda, [uv](https://github.com/astral-sh/uv), [Ollama](https://ollama.com),
+about 10 GB of free disk space, and 16 GB of RAM for the default local model.
+
+```bash
+git clone https://github.com/Mehrdadrahmani/guidecite.git && cd guidecite
+
+# Python environment
+conda create -n medguide-rag -c conda-forge python=3.11 -y
+conda activate medguide-rag
+make setup                       # uv pip install -e ".[dev]"
+cp .env.example .env             # defaults to the local Ollama model
+
+# Local LLM (~5 GB)
+ollama serve &
+ollama pull hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M
+
+# Corpus and indexes (a few minutes)
+make data                        # download, sample, clean, chunk  -> data/processed/
+make index                       # embeddings -> Qdrant, BM25      -> data/index/
+make smoke-retrieval             # sanity check: 5 queries x 4 modes
+```
+
+### 2. Web app
+
+```bash
+make serve
+```
+
+Open **http://localhost:8000**, type a question (or click an example), and press
+**Ask GuideCite**. With the local 8B model an answer takes about 20–40 s. Click any `[n]` chip
+to jump to the passage it cites. To share or bookmark a question, put it in the URL:
+`http://localhost:8000/?q=How should laboratories test for Zika virus infection?`
+
+### 3. REST API
+
+The same server exposes a JSON API, with interactive documentation at
+**http://localhost:8000/docs**.
+
+```bash
+curl -s localhost:8000/ask -H 'content-type: application/json' \
+  -d '{"question": "How should laboratories test for Zika virus infection?", "mode": "hybrid_rerank"}'
+```
+
+| Endpoint | Description |
+|---|---|
+| `POST /ask` | `question` (3–1000 chars), optional `mode` (`dense`, `bm25`, `hybrid`, `hybrid_rerank`) and `top_k` (1–20). Returns the answer, structured citations (number, organisation, title, section, snippet, chunk ID), citation validity, retrieved passages with scores, per-stage timings, the model and a disclaimer. |
+| `GET /health` | Readiness, active model, default retrieval mode. |
+
+### 4. Command line and Python
+
+```bash
+python -m medguide.generation.answer "Which groups should be screened for latent TB?" --mode hybrid_rerank
+python -m medguide.generation.answer "..." --json      # full structured output
+```
+
+```python
+from medguide.config import load_config
+from medguide.generation.answer import AnswerEngine
+
+engine = AnswerEngine(load_config())
+result = engine.answer("Which vaccines are recommended during pregnancy?", mode="hybrid_rerank")
+print(result["answer"])
+for c in result["citations"]:
+    print(c["n"], c["source"], c["title"], c["section"])
+```
+
+### Using a hosted LLM
+
+Set `LLM_PROVIDER` and `LLM_MODEL` (plus the matching API key) in `.env`. Supported providers:
+`ollama`, `anthropic`, `openai`, `openrouter`. No code changes are needed.
+
+### Docker
+
+`Dockerfile` and `docker-compose.yml` (API, Qdrant server and a one-off indexer profile) are
+included. They have not been tested yet.
 
 ## Results
 
@@ -175,56 +269,6 @@ Real outputs from [`results/demo_answers.json`](results/demo_answers.json), shor
 >
 > The provided guideline excerpts do not contain enough information to answer this question. …
 
-## Getting started
-
-**Prerequisites:** conda, [uv](https://github.com/astral-sh/uv), [Ollama](https://ollama.com),
-and about 10 GB of free disk space.
-
-```bash
-# 1. Environment
-conda create -n medguide-rag -c conda-forge python=3.11 -y
-conda activate medguide-rag
-make setup                       # uv pip install -e ".[dev]"
-cp .env.example .env             # defaults to the local Ollama model
-
-# 2. Local LLM (~5 GB)
-ollama serve &
-ollama pull hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M
-
-# 3. Data and indexes
-make data                        # download, sample, clean, chunk  -> data/processed/
-make index                       # embeddings -> Qdrant, BM25      -> data/index/
-make smoke-retrieval             # sanity check: 5 queries x 4 modes
-
-# 4. Ask a question
-python -m medguide.generation.answer "Which groups should be screened for latent TB?"
-```
-
-### REST API
-
-```bash
-make serve                       # interactive docs at http://localhost:8000/docs
-```
-
-```bash
-curl -s localhost:8000/ask -H 'content-type: application/json' \
-  -d '{"question": "How should laboratories test for Zika virus infection?", "mode": "hybrid_rerank"}'
-```
-
-The response contains the answer, structured citations (number, source, title, section,
-snippet, chunk ID), citation validity, the retrieved passages with scores, per-stage timings,
-the model used and a disclaimer.
-
-### Using a hosted LLM
-
-Set `LLM_PROVIDER` and `LLM_MODEL` (plus the matching API key) in `.env`. Supported providers:
-`ollama`, `anthropic`, `openai`, `openrouter`. No code changes are needed.
-
-### Docker
-
-`Dockerfile` and `docker-compose.yml` (API, Qdrant server and a one-off indexer profile) are
-included. They have not been tested yet.
-
 ## Evaluation methodology
 
 ```bash
@@ -255,7 +299,7 @@ make report                       # results/ablation.md + results/ablation.png
 | Retrieval | sentence-transformers (`bge-base-en-v1.5`), Qdrant, rank-bm25, RRF, cross-encoder (`bge-reranker-base`) |
 | Generation | LangChain, Ollama (Qwen3-8B, Q4_K_M), Anthropic / OpenAI / OpenRouter adapters |
 | Evaluation | RAGAS, statsmodels (Wilson CI, McNemar), pandas, matplotlib |
-| Serving | FastAPI, Pydantic, Uvicorn, Docker |
+| Serving | FastAPI, Pydantic, Uvicorn, dependency-free HTML/JS web UI, Docker |
 | Data | Hugging Face `datasets` (`epfl-llm/guidelines`, MedQA), PyArrow |
 | Quality | pytest, ruff, GitHub Actions, uv lockfile |
 
@@ -271,7 +315,7 @@ guidecite/
 │   ├── retrieval/            # dense, BM25, RRF fusion, reranker, pipeline
 │   ├── generation/           # LLM factory, answer engine, citation validator
 │   ├── eval/                 # question generation, retrieval / RAGAS / MCQ evals, report
-│   └── api/                  # FastAPI application
+│   └── api/                  # FastAPI application + web UI (static/index.html)
 ├── scripts/                  # data, index, smoke-test, demo and diagram entry points
 ├── tests/                    # offline unit tests (run in CI)
 ├── results/                  # committed evaluation outputs

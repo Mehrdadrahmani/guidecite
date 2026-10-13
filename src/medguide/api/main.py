@@ -1,4 +1,4 @@
-"""GuideCite HTTP API: POST /ask, GET /health."""
+"""GuideCite HTTP API: web UI at /, POST /ask, GET /health."""
 
 from __future__ import annotations
 
@@ -6,10 +6,12 @@ import logging
 import time
 import uuid
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from medguide.config import ConfigError, get_config
@@ -19,6 +21,7 @@ log = logging.getLogger("guidecite.api")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
 _CFG = get_config()
+_INDEX_HTML = Path(__file__).parent / "static" / "index.html"
 Mode = Literal["dense", "bm25", "hybrid", "hybrid_rerank"]
 
 
@@ -99,12 +102,18 @@ def create_app(engine_factory=None) -> FastAPI:
         response.headers["X-Request-ID"] = rid
         return response
 
+    @app.get("/", include_in_schema=False)
+    def web_ui() -> FileResponse:
+        return FileResponse(_INDEX_HTML, media_type="text/html")
+
     @app.get("/health")
     def health(request: Request) -> dict:
-        state = request.app.state
+        state, cfg = request.app.state, get_config()
         return {
             "status": "ok" if state.engine else "degraded",
             "error": state.error,
+            "model": f"{cfg['llm']['provider']}:{cfg['llm']['model']}",
+            "default_mode": cfg["retrieval"]["mode"],
             "disclaimer": DISCLAIMER,
         }
 
