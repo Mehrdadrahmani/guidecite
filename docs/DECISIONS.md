@@ -115,3 +115,17 @@ Alternative: open-ended chain of thought, or the letter only.
 Why: open-ended "think briefly" made Qwen3-8B write ~1k-token explanations (55–70 s per call, ~10 h
 for 1,200 calls on the laptop). Two sentences keep a little reasoning and cut calls to 4–8 s.
 Changed after a 10-item smoke test, before any full run.
+
+## Concurrency: serialize retrieval, parallelize only LLM calls
+Chosen: `AnswerEngine` holds a lock around retrieval (embedder + reranker); LLM calls stay concurrent.
+Alternative: one model copy per thread, or a fully sequential eval.
+Why: concurrent torch calls on Apple MPS crashed the first RAGAS run with no traceback (and the
+FastAPI threadpool would hit the same path). Retrieval is ~1–2 s, generation ~30 s, so the lock
+costs almost nothing.
+
+## RAGAS reference: the gold chunk, not a written answer
+Chosen: `reference` = the chunk each synthetic question was generated from.
+Alternative: LLM-written reference answers, or reference-free metrics only.
+Why: no human reference answers exist; a model-written reference would add a second layer of
+unverified text. Context precision/recall against the gold chunk measure whether retrieval found
+the evidence the question was built on.

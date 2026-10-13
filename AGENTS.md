@@ -10,6 +10,8 @@ WHO / CDC / NICE guidelines (`epfl-llm/guidelines`, ~2023 snapshot). Research/po
 - Install packages with `uv pip install ...` — **never plain `pip`**.
 - Secrets live in `.env` (copy `.env.example`). Provider/model come from `LLM_PROVIDER`,
   `LLM_MODEL`, `JUDGE_PROVIDER`, `JUDGE_MODEL`.
+- Default LLM is local Ollama: `OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0 ollama serve`,
+  model `ollama pull hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M` (the Ollama registry may be blocked; HF works).
 
 ## Commands
 ```
@@ -49,7 +51,8 @@ Pass extra flags with `ARGS="--limit 10"`.
    failures and weak results honestly.
 2. Never commit the corpus, indexes, `.env`, or model caches; scripts recreate them.
 3. Cost control: print an LLM-call estimate and run a 10-item smoke test (`--limit 10`)
-   before any full LLM-heavy run. Dev/smoke model: `claude-haiku-5-5`; final runs:
-   `claude-sonnet-5-5` (set via env, never in code).
+   before any full LLM-heavy run. Published results use the local Ollama model ($0); a hosted
+   model is set via env, never in code. LLM calls are cached in `data/cache/llm_cache.sqlite`.
+   Local runs are slow (~30 s/answer): run long evals under `caffeinate -ims` on macOS.
 4. Medical disclaimer in the answer prompt, API responses and README.
 5. Log each major design choice in `docs/DECISIONS.md` (choice, alternative, why).
