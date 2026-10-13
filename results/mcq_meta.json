@@ -1,0 +1,8 @@
+{
+  "dataset": "GBaker/MedQA-USMLE-4-options",
+  "split": "test",
+  "n": 300,
+  "model": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+  "top_k": 5,
+  "seed": 42
+}

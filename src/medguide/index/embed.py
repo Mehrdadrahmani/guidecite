@@ -19,17 +19,22 @@ class GuideEmbedder(Embeddings):
         from sentence_transformers import SentenceTransformer
 
         self.model_name = model_name
-        self.model = SentenceTransformer(model_name, device=device)
+        self.encoder = SentenceTransformer(model_name, device=device)
         self.batch_size = batch_size
         self.query_instruction = query_instruction
         self.normalize = normalize
 
     @property
+    def model(self) -> str:
+        # LangChain convention (and what RAGAS logs): `model` is the model name string.
+        return self.model_name
+
+    @property
     def dim(self) -> int:
-        return self.model.get_sentence_embedding_dimension()
+        return self.encoder.get_sentence_embedding_dimension()
 
     def _encode(self, texts: list[str], show_progress: bool = False) -> list[list[float]]:
-        vecs = self.model.encode(
+        vecs = self.encoder.encode(
             texts,
             batch_size=self.batch_size,
             normalize_embeddings=self.normalize,

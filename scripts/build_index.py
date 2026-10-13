@@ -34,7 +34,7 @@ def main() -> None:
 
     embedder = load_embedder(cfg)
     print(
-        f"embedding with {embedder.model_name} on {embedder.model.device}, batch {embedder.batch_size}"
+        f"embedding with {embedder.model_name} on {embedder.encoder.device}, batch {embedder.batch_size}"
     )
     t0 = time.perf_counter()
     vectors = embedder.embed_documents([r["text"] for r in records])

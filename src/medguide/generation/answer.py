@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import threading
 import time
 
 from medguide.config import load_config
@@ -44,11 +45,15 @@ class AnswerEngine:
         self.retriever = retriever or Retriever(cfg)
         self.llm = llm if llm is not None else generator_from_config(cfg)
         self.system_prompt = load_prompt(cfg, cfg["llm"]["answer_prompt"])
+        # torch on MPS is not thread-safe: concurrent callers (eval threads, FastAPI's
+        # threadpool) hung or crashed without this. Only retrieval is serialized.
+        self._retrieval_lock = threading.Lock()
 
     def answer(self, question: str, mode: str | None = None, top_k: int | None = None) -> dict:
         mode = mode or self.cfg["retrieval"]["mode"]
         t0 = time.perf_counter()
-        hits = self.retriever.retrieve(question, mode=mode, top_k=top_k)
+        with self._retrieval_lock:
+            hits = self.retriever.retrieve(question, mode=mode, top_k=top_k)
         t1 = time.perf_counter()
         passages = [h.chunk for h in hits]
         reply = self.llm.invoke(build_messages(self.system_prompt, question, passages))

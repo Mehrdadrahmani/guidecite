@@ -1,0 +1,5 @@
+mode,n,correct,accuracy,ci95_low,ci95_high,unparsed,errors,delta_vs_none,none_only_correct,mode_only_correct,mcnemar_p
+none,300,192,0.64,0.5842,0.6922,1,0,,,,
+dense,300,184,0.6133,0.5571,0.6667,0,0,-0.0267,37.0,29.0,0.3891
+hybrid,300,185,0.6167,0.5605,0.6699,0,0,-0.0233,33.0,26.0,0.435
+hybrid_rerank,300,191,0.6367,0.5808,0.689,0,0,-0.0033,28.0,27.0,1.0
