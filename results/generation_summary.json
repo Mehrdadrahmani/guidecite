@@ -1,0 +1,35 @@
+{
+  "label": "UNVERIFIED (synthetic)",
+  "mode": "hybrid_rerank",
+  "generator": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+  "judge": "ollama:hf.co/Qwen/Qwen3-8B-GGUF:Q4_K_M",
+  "judge_reliability": "small-judge, low reliability",
+  "same_family_judge": true,
+  "n_in_scope": 50,
+  "n_errors": 0,
+  "citation_validity_rate": 1.0,
+  "answers_with_citation_rate": 0.98,
+  "in_scope_abstention_rate": 0.04,
+  "gold_chunk_in_context_rate": 0.94,
+  "generation_ms_p50": 35506.5,
+  "out_of_scope": {
+    "n": 20,
+    "correct_abstention_rate": 0.95,
+    "by_type": {
+      "medical_not_in_corpus": 1.0,
+      "non_medical": 0.9
+    }
+  },
+  "ragas": {
+    "faithfulness": 0.9285,
+    "answer_relevancy": 0.7861,
+    "llm_context_precision_with_reference": 0.9801,
+    "context_recall": 0.9234
+  },
+  "ragas_nan_counts": {
+    "faithfulness": 0,
+    "answer_relevancy": 0,
+    "llm_context_precision_with_reference": 0,
+    "context_recall": 0
+  }
+}
